@@ -1,4 +1,4 @@
-import { api } from "../utils/Api";
+import { api } from "../utils/Api.js";
 import React from "react";
 import editPenImg from '../images/pen.svg'
 import Card from './Card.js'

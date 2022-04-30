@@ -53,11 +53,11 @@ function App() {
 
 <PopupWithForm name = 'profile-edit' title = 'Редактировать профиль' isOpen = {isEditProfilePopupOpen} onClose = {closeAllPopups}>
     <div className = "popup__input-container">
-        <input className = "popup__field popup__field_for_name" id = "popup__name" name = "name" type="text" minLength="2" maxLength="40" required noValidate placeholder=""/>
+        <input className = "popup__field popup__field_for_name" id = "popup__name" name = "name" type="text" minLength="2" maxLength="40" required noValidate placeholder="Имя"/>
         <span className="popup__field-error popup__name-error"></span>
    </div>
     <div className = "popup__input-container">
-        <input className = "popup__field popup__field_for_status" id = "popup__status" name = "status" type="text" minLength="2" maxLength="200" required noValidate placeholder=""/>
+        <input className = "popup__field popup__field_for_status" id = "popup__status" name = "status" type="text" minLength="2" maxLength="200" required noValidate placeholder="Занятие"/>
         <span className="popup__field-error popup__status-error"></span>
     </div>
     <button className = "popup__save" type = "submit" form="popup__form-edit">Сохранить</button>
