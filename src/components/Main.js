@@ -13,16 +13,16 @@ function Main(props) {
     const [userAvatar, setUserAvatar] = React.useState('');
     const [cards, setCards] = React.useState([]);
     
-    api.getUserInfo()
-    .then((userInfo)=>{
-        setUserName(userInfo.name);
-        setUserDescription(userInfo.about);
-        setUserAvatar(userInfo.avatar);
-    });
-
-    api.getInitialCards()
-    .then((cardsArray)=>{
-        setCards(cardsArray);
+    React.useEffect(()=>{
+        Promise.all([api.getUserInfo(),api.getInitialCards()])
+        .then(result => {
+            const userInfo = result[0];
+            const cardList = result[1];
+            setCards(cardList);
+            setUserName(userInfo.name);
+            setUserDescription(userInfo.about);
+            setUserAvatar(userInfo.avatar);
+        })
     })
     
 

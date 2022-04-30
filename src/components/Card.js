@@ -6,8 +6,8 @@ function Card(props){
 
     return (
         <div className = "place">
-        <button className = "place__delete"  type="button"></button>
-        <img  className = "place__image" src={props.link} onClick = {handleClick} alt="фото локации"/>
+        <button className = "place__delete place__delete_active"  type="button"></button>
+        <img  className = "place__image" src={props.link} onClick = {handleClick} alt={props.name}/>
         <div className = "place__bottom">
             <h2 className = "place__name">{props.name}</h2>
             <div className = "place__like-container">
