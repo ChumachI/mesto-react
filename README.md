@@ -1,4 +1,5 @@
 Проект: Место-react
+[Чек лист](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-10.pdf)
 Описание:
 Сайт создавался для отработки пройденных тем десятого спринта курса "Веб-разработчик".
 
