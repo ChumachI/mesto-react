@@ -1,32 +1,23 @@
-import { api } from "../utils/Api.js";
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import editPenImg from '../images/pen.svg'
 import Card from './Card.js'
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function Main(props) {
     const onEditProfile = props.onEditProfile;
     const onAddPlace = props.onAddPlace;
     const onEditAvatar = props.onEditAvatar;
     const onCardClick = props.onCardClick;
-    const [userName, setUserName] = React.useState('');
-    const [userDescription, setUserDescription] = React.useState('');
-    const [userAvatar, setUserAvatar] = React.useState('');
-    const [cards, setCards] = React.useState([]);
-    
-    React.useEffect(()=>{
-        Promise.all([api.getUserInfo(),api.getInitialCards()])
-        .then(result => {
-            const userInfo = result[0];
-            const cardList = result[1];
-            setCards(cardList);
-            setUserName(userInfo.name);
-            setUserDescription(userInfo.about);
-            setUserAvatar(userInfo.avatar);
-        })
-    })
-    
+    const handleCardLike = props.onCardLike;
+    const handleCardDelete = props.onCardDelete;
+    const cards = props.cards;
 
-    return(
+    const currentUser = useContext(CurrentUserContext);
+    const userName = currentUser.name;
+    const userDescription = currentUser.about;
+    const userAvatar = currentUser.avatar;
+    
+    return (
     <main className = "content">
         <section className = "profile">
             <div className = "profile__avatar" style={{ backgroundImage: `url(${userAvatar})` }}>
@@ -37,18 +28,28 @@ function Main(props) {
             <div className = "profile__info">
                 <div className = "profile__name-and-edit-button">
                     <h1 className = "profile__name">{userName}</h1>
-                    <button className = "profile__edit-button" type="button" onClick={onEditProfile}></button>
+                    <button className = "profile__edit-button" type="button" onClick = {onEditProfile}></button>
                 </div>
                 <p className = "profile__status">{userDescription}</p>
             </div>
-            <button  className = "profile__add-button" type="button" onClick={onAddPlace}></button>
-        </section>  
+            <button  className = "profile__add-button" type="button" onClick = {onAddPlace}></button>
+        </section>
+
         <section className = "places" >
             {cards.map(card => {
-                return <Card key = {card._id} name = {card.name} link = {card.link} likes = {card.likes}  onCardClick = {onCardClick}/>;
+                return <Card 
+                key = {card._id} 
+                id = {card._id} 
+                name = {card.name} 
+                link = {card.link} 
+                likes = {card.likes}  
+                onCardClick = {onCardClick} 
+                owner = {card.owner} 
+                onLikeClick={handleCardLike}
+                onCardDelete = {handleCardDelete}/>;
             })}
         </section>
-</main>
+    </main>
     ) 
 }
 

@@ -1,7 +1,5 @@
 import {ApiConfig} from './ApiConfig.js';
 
-
-
 class Api {
     constructor(options) {
         this._commonUrlPart = options.commonUrlPart;
@@ -16,7 +14,7 @@ class Api {
          return Promise.reject(`Ошибка: ${result.status}`);
         } 
     }
-    //загружаем карточки с сервера
+ 
     getInitialCards() {
         return fetch(`${this._commonUrlPart}/cards`, {
           headers: this._headers
@@ -24,7 +22,7 @@ class Api {
         .then(result => this._checkResult(result))
     }
 
-    //получаем информацию о пользователе
+   
     getUserInfo(){
         return fetch(`${this._commonUrlPart}/users/me`, {
             headers: this._headers
@@ -32,7 +30,7 @@ class Api {
         .then(result => this._checkResult(result))
     }
 
-    //вносим изменения в информацию о пользователе
+ 
     setProfileInfo(userName, userInfo){
         return fetch(`${this._commonUrlPart}/users/me`, {
             method: 'PATCH',
@@ -57,21 +55,16 @@ class Api {
         .then(result => this._checkResult(result))
     }
 
-    setLike(id){
+    changeLikeCardStatus(id, isLiked){
+        const option = `${isLiked ? 'DELETE' : 'PUT'}`;
         return fetch(`${this._commonUrlPart}/cards/${id}/likes`,{
-            method: 'PUT',
+            method: option,
             headers: this._headers
         })
         .then(result => this._checkResult(result))
+
     }
 
-    deleteLike(id){
-        return fetch(`${this._commonUrlPart}/cards/${id}/likes`,{
-            method: 'DELETE',
-            headers: this._headers
-        })
-        .then(result => this._checkResult(result))
-    }
     getCardLikes(id){
         
         return fetch(`${this._commonUrlPart}/cards/${id}/likes`,{
