@@ -1,11 +1,11 @@
-import logo from '../images/header-logo.svg';
+import logo from "../images/header-logo.svg";
 
-function Header(){
-    return (
-    <header className = "header">
-        <img className = "header__logo" src={logo} alt="лого заголовка"/>
+function Header() {
+  return (
+    <header className="header">
+      <img className="header__logo" src={logo} alt="лого заголовка" />
     </header>
-    )
+  );
 }
 
 export default Header;
