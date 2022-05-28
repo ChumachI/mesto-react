@@ -7,6 +7,8 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__nav-link/header__nav-link.css);
+@import url(./blocks/header/__email-container/header__email-container.css);
 
 @import url(./blocks/content/content.css);
 
@@ -50,7 +52,19 @@
 @import url(./blocks/popup/__save/_disabled/popup__save_disabled.css);
 @import url(./blocks/popup/__input-container/popup__input-container.css);
 @import url(./blocks/popup/__offer/popup__offer.css);
+@import url(./blocks/popup/__info-image/popup__info-image.css);
+@import url(./blocks/popup/__header/_type_info-tip/popup__header_type_info-tip.css);
 
 @import url(./blocks/popup/__zoom-container/popup__zoom-container.css);
 @import url(./blocks/popup/__zoom-image/popup__zoom-image.css);
 @import url(./blocks/popup/__zoom-label/popup__zoom-label.css);
+
+@import url(./blocks/authentication/__line/authentication__line.css);
+@import url(./blocks/authentication/authentication.css);
+@import url(./blocks/authentication/__form/authentication__form.css);
+@import url(./blocks/authentication/__header/authentication__header.css);
+@import url(./blocks/authentication/__form-field/authentication__form-field.css);
+@import url(./blocks/authentication/__form-fieldset/authentication__form-fieldset.css);
+@import url(./blocks/authentication/__form-button/authentication__form-button.css);
+@import url(./blocks/authentication/__bottom-offer/authentication__bottom-offer.css);
+@import url(./blocks/authentication/__bottom-link/authentication__bottom-link.css);

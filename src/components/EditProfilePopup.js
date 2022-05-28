@@ -5,8 +5,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 function EditProfilePopup(props) {
   const isOpen = props.isOpen;
   const onClose = props.onClose;
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const handleUpdateUser = props.onUpdateUser;
 
   const currentUser = useContext(CurrentUserContext);
@@ -44,7 +44,7 @@ function EditProfilePopup(props) {
       <div className="popup__input-container">
         <input
           className="popup__field popup__field_for_name"
-          value={name || ''}
+          value={name || ""}
           onChange={handleNameChange}
           id="popup__name"
           name="name"
@@ -60,7 +60,7 @@ function EditProfilePopup(props) {
       <div className="popup__input-container">
         <input
           className="popup__field popup__field_for_status"
-          value={description  || ''}
+          value={description || ""}
           onChange={handleDescriptionChange}
           id="popup__status"
           name="status"

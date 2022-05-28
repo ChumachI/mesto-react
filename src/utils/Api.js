@@ -93,6 +93,8 @@ class Api {
         })
         .then(result => this._checkResult(result))
     }
+
+
 }
 
 export const api = new Api(ApiConfig);

@@ -1,14 +1,14 @@
-import Header from "./Header.js";
-import Main from "./Main.js";
-import Footer from "./Footer.js";
-import ImagePopup from "./ImagePopup.js";
-import EditProfilePopup from "./EditProfilePopup.js";
-import AddPlacePopup from "./AddPlacePopup.js";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRout.js";
+import HomePage from "./HomePage.js";
 import { useState, useEffect } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "../index.css";
 import { api } from "../utils/Api.js";
-import EditAvatarPopup from "./EditAvatarPopup.js";
+import Register from "./Register";
+import { useHistory } from "react-router-dom";
+import { auth } from "../utils/Auth";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -17,6 +17,10 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     Promise.all([api.getInitialCards(), api.getUserInfo()])
@@ -28,6 +32,25 @@ function App() {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    tokenCheck();
+  }, [loggedIn]);
+
+  function tokenCheck() {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      if (jwt) {
+        auth.getContent(jwt).then((res) => {
+          if (res) {
+            setEmail(res.data.email);
+            setLoggedIn(true);
+            history.push("/home");
+          }
+        });
+      }
+    }
+  }
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -114,38 +137,47 @@ function App() {
     setSelectedCard({ ...selectedCard, isOpen: false });
   }
 
+  function handleLogin(email) {
+    setLoggedIn(true);
+    setEmail(email);
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-
-        <Main
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
-
-        <Footer />
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-        />
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-        />
-        <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onAddCard={handleAddPlaceSubmit}
-        />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <Switch>
+          <ProtectedRoute
+            path="/home"
+            loggedIn={loggedIn}
+            component={HomePage}
+            cards={cards}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+            onUpdateAvatar={handleUpdateAvatar}
+            isEditProfilePopupOpen={isEditProfilePopupOpen}
+            onUpdateUser={handleUpdateUser}
+            isAddPlacePopupOpen={isAddPlacePopupOpen}
+            onAddCard={handleAddPlaceSubmit}
+            selectedCard={selectedCard}
+            closeAllPopups={closeAllPopups}
+            email={email}
+            history={history}
+          />
+          <Route path="/sign-in">
+            <Login handleLogin={handleLogin} />
+          </Route>
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route exact path="/">
+            {loggedIn ? <Redirect to="/home" /> : <Redirect to="/sign-in" />}
+          </Route>
+        </Switch>
       </CurrentUserContext.Provider>
     </div>
   );
